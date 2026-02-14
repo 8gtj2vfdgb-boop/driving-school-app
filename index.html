@@ -247,8 +247,7 @@ adminPanel.style.display="none";
 }
 
 </script>
-
- <!-- ===================== CARS MENU BUTTON ===================== -->
+<!-- ===================== MENU BUTTON ===================== -->
 <div class="menu-item" onclick="openCars()">🚗 Cars for Sale</div>
 
 
@@ -259,59 +258,46 @@ adminPanel.style.display="none";
     <div class="cars-container">
 
         <div class="car-card">
-            <img src="https://source.unsplash.com/400x250/?toyota-corolla">
+            <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=800&q=60">
             <h3>Toyota Corolla 2015</h3>
             <p class="price">GHS 78,000</p>
             <button onclick="buyCar('Toyota Corolla 2015 - GHS 78,000')">Buy on WhatsApp</button>
         </div>
 
         <div class="car-card">
-            <img src="https://source.unsplash.com/400x250/?honda-civic">
+            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=800&q=60">
             <h3>Honda Civic 2016</h3>
             <p class="price">GHS 92,000</p>
             <button onclick="buyCar('Honda Civic 2016 - GHS 92,000')">Buy on WhatsApp</button>
         </div>
 
         <div class="car-card">
-            <img src="https://source.unsplash.com/400x250/?hyundai-elantra">
+            <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=60">
             <h3>Hyundai Elantra 2018</h3>
             <p class="price">GHS 105,000</p>
             <button onclick="buyCar('Hyundai Elantra 2018 - GHS 105,000')">Buy on WhatsApp</button>
         </div>
 
         <div class="car-card">
-            <img src="https://source.unsplash.com/400x250/?kia-optima">
+            <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=60">
             <h3>Kia Optima 2017</h3>
             <p class="price">GHS 110,000</p>
             <button onclick="buyCar('Kia Optima 2017 - GHS 110,000')">Buy on WhatsApp</button>
         </div>
 
         <div class="car-card">
-      
-     <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=800&q=60">t
+            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=60">
             <h3>Mercedes C300 2014</h3>
             <p class="price">GHS 145,000</p>
             <button onclick="buyCar('Mercedes C300 2014 - GHS 145,000')">Buy on WhatsApp</button>
         </div>
 
         <div class="car-card">
-            <img src="https://source.unsplash.com/400x250/?range-rover">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=60">
             <h3>Range Rover Evoque 2013</h3>
             <p class="price">GHS 210,000</p>
             <button onclick="buyCar('Range Rover Evoque 2013 - GHS 210,000')">Buy on WhatsApp</button>
         </div>
-
-     <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=800&q=60">
-
-<img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=800&q=60">
-
-<img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=60">
-
-<img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=60">
-
-<img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=60">
-
-<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=60">
 
     </div>
 
@@ -337,6 +323,8 @@ adminPanel.style.display="none";
 
 .car-card img{
     width:100%;
+    height:200px;
+    object-fit:cover;
     border-radius:12px;
 }
 
@@ -376,6 +364,5 @@ function goBack(){
     document.getElementById('dashboard').style.display='block';
 }
 </script>
-
 </body>
 </html>
