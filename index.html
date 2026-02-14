@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>K Gyasi Driving School App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f1f5f9;
+}
+
+/* APP CONTAINER */
+.app{
+    max-width:400px;
+    margin:auto;
+    background:white;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* HEADER */
+.header{
+    background:#0f172a;
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* CONTENT */
+.content{
+    flex:1;
+    overflow:auto;
+    padding:15px;
+}
+
+/* CARD */
+.card{
+    background:#ffffff;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom:15px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-top:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.primary{background:#2563eb;color:white;}
+.success{background:#16a34a;color:white;}
+.whatsapp{background:#25D366;color:white;}
+.danger{background:red;color:white;}
+
+/* INPUT */
+input,select{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+/* BOTTOM NAV */
+.nav{
+    display:flex;
+    justify-content:space-around;
+    background:#0f172a;
+    padding:10px 0;
+}
+
+.nav button{
+    background:none;
+    color:white;
+    font-size:14px;
+    width:auto;
+}
+
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">K Gyasi Driving School </div>
+
+<div class="content">
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+    <div class="card">
+        <h3>Welcome Student </h3>
+        <p>Book lessons and manage your driving training easily.</p>
+    </div>
+
+    <div class="card">
+        <h3>Quick Actions</h3>
+        <button class="success" onclick="openBooking()">Book Lesson</button>
+        <button class="whatsapp" onclick="openWhatsApp()">Chat on WhatsApp</button>
+    </div>
+</div>
+
+<!-- BOOKING -->
+<div id="booking" class="hidden">
+    <div class="card">
+        <h3>Book Driving Lesson</h3>
+
+        <select id="course">
+            <option>Beginner - GHC300</option>
+            <option>Highway - GHC400</option>
+            <option>Night Driving - GHC350</option>
+        </select>
+
+        <input type="date" id="date">
+        <input type="time" id="time">
+
+        <button class="primary" onclick="bookLesson()">Confirm Booking</button>
+        <button class="danger" onclick="goHome()">Cancel</button>
+
+        <p id="message"></p>
+    </div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="hidden">
+    <div class="card">
+        <h3>Profile</h3>
+        <p>Name: Student User</p>
+        <p>Student ID: STU-1024</p>
+        <button class="danger" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+</div>
+
+<!-- BOTTOM MENU -->
+<div class="nav">
+    <button onclick="goHome()">Home</button>
+    <button onclick="openBooking()">Book</button>
+    <button onclick="openWhatsApp()">WhatsApp</button>
+    <button onclick="openProfile()">Profile</button>
+</div>
+
+</div>
+
+<script>
+
+function goHome(){
+    dashboard.classList.remove("hidden");
+    booking.classList.add("hidden");
+    profile.classList.add("hidden");
+}
+
+function openBooking(){
+    dashboard.classList.add("hidden");
+    booking.classList.remove("hidden");
+    profile.classList.add("hidden");
+}
+
+function openProfile(){
+    dashboard.classList.add("hidden");
+    booking.classList.add("hidden");
+    profile.classList.remove("hidden");
+}
+
+function bookLesson(){
+    let msg=document.getElementById("message");
+    msg.innerHTML=" Booking Successful!";
+}
+
+function openWhatsApp(){
+    window.open("https://wa.me/233534115778", "_blank");
+}
+
+function logout(){
+    alert("Logged out successfully");
+    goHome();
+}
+
+</script>
+
+</body>
+</html>
