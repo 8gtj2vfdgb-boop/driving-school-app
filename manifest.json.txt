@@ -1,0 +1,17 @@
+manifest.json
+{
+  "name": "K Gyasi Driving School",
+  "short_name": "DrivingApp",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
