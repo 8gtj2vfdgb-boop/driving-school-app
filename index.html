@@ -1,193 +1,249 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>K Gyasi Driving School App</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K Gyasi Driving School</title>
 
 <style>
+:root{
+ --bg:#eef2f7;
+ --card:white;
+ --text:black;
+}
+.dark{
+ --bg:#0f172a;
+ --card:#1e293b;
+ --text:white;
+}
+
 body{
-    margin:0;
-    font-family:Arial;
-    background:#f1f5f9;
+ font-family:Arial;
+ background:var(--bg);
+ color:var(--text);
+ margin:0;
+ padding:20px;
 }
 
-/* APP CONTAINER */
-.app{
-    max-width:400px;
-    margin:auto;
-    background:white;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
+/* containers */
+.container,.card,#adminPanel{
+ background:var(--card);
+ padding:20px;
+ border-radius:15px;
+ max-width:380px;
+ margin:auto;
+ margin-top:20px;
+ text-align:center;
+ box-shadow:0 5px 20px rgba(0,0,0,.2);
 }
 
-/* HEADER */
-.header{
-    background:#0f172a;
-    color:white;
-    padding:15px;
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
-}
-
-/* CONTENT */
-.content{
-    flex:1;
-    overflow:auto;
-    padding:15px;
-}
-
-/* CARD */
-.card{
-    background:#ffffff;
-    padding:15px;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    margin-bottom:15px;
-}
-
-/* BUTTON */
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    margin-top:10px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.primary{background:#2563eb;color:white;}
-.success{background:#16a34a;color:white;}
-.whatsapp{background:#25D366;color:white;}
-.danger{background:red;color:white;}
-
-/* INPUT */
 input,select{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
+ width:90%;
+ padding:12px;
+ margin:8px;
+ border-radius:8px;
+ border:1px solid #ccc;
 }
 
-/* BOTTOM NAV */
-.nav{
-    display:flex;
-    justify-content:space-around;
-    background:#0f172a;
-    padding:10px 0;
+button{
+ padding:12px 20px;
+ border:none;
+ border-radius:10px;
+ cursor:pointer;
+ margin:5px;
 }
 
-.nav button{
-    background:none;
-    color:white;
-    font-size:14px;
-    width:auto;
+.login-btn{background:#2563eb;color:white;width:95%}
+.pay-btn{background:green;color:white}
+.logout-btn{background:red;color:white}
+.admin-btn{background:black;color:white}
+.print-btn{background:orange;color:white}
+.mode-btn{background:#6b7280;color:white}
+
+/* hero */
+.hero{
+ background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+ url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+ background-size:cover;
+ color:white;
+ padding:50px 20px;
+ border-radius:15px;
+ text-align:center;
+ max-width:500px;
+ margin:auto;
 }
 
-.hidden{display:none;}
+#receipt{background:#dcfce7;padding:15px;border-radius:10px;margin-top:10px;display:none;text-align:left}
+#adminPanel{display:none}
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
-<div class="header">K Gyasi Driving School </div>
-
-<div class="content">
+<!-- LOGIN -->
+<div id="loginPage" class="container">
+<h2>Student Login</h2>
+<input id="studentName" placeholder="Enter your name">
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+<button class="login-btn" onclick="login()">Login</button>
+<button class="admin-btn" onclick="openAdmin()">Admin</button>
+<button class="mode-btn" onclick="toggleMode()">Dark Mode</button>
+</div>
 
 <!-- DASHBOARD -->
-<div id="dashboard">
-    <div class="card">
-        <h3>Welcome Student </h3>
-        <p>Book lessons and manage your driving training easily.</p>
-    </div>
+<div id="dashboard" style="display:none">
 
-    <div class="card">
-        <h3>Quick Actions</h3>
-        <button class="success" onclick="openBooking()">Book Lesson</button>
-        <button class="whatsapp" onclick="openWhatsApp()">Chat on WhatsApp</button>
-    </div>
+<div class="hero">
+<h1>K Gyasi Driving School </h1>
+<p id="welcome"></p>
+<p id="studentID"></p>
 </div>
 
-<!-- BOOKING -->
-<div id="booking" class="hidden">
-    <div class="card">
-        <h3>Book Driving Lesson</h3>
+<div class="card">
+<h2>Book Lesson</h2>
 
-        <select id="course">
-            <option>Beginner - GHC300</option>
-            <option>Highway - GHC400</option>
-            <option>Night Driving - GHC350</option>
-        </select>
+<select id="course">
+<option value="">Select Course</option>
+<option>Beginner Driving - GHC300</option>
+<option>Highway Training - GHC400</option>
+<option>Night Driving - GHC350</option>
+<option>Theory & Road Signs - GHC250</option>
+</select>
 
-        <input type="date" id="date">
-        <input type="time" id="time">
+<input type="date" id="date">
+<input type="time" id="time">
 
-        <button class="primary" onclick="bookLesson()">Confirm Booking</button>
-        <button class="danger" onclick="goHome()">Cancel</button>
+<select id="instructor">
+<option>Mr Appiah Kubi</option>
+<option>Mr Amankona</option>
+<option>Madam Patiencep</option>
+</select>
 
-        <p id="message"></p>
-    </div>
-</div>
+<select id="payment">
+<option>Cash</option>
+<option>Mobile Money</option>
+<option>Card</option>
+</select>
 
-<!-- PROFILE -->
-<div id="profile" class="hidden">
-    <div class="card">
-        <h3>Profile</h3>
-        <p>Name: Student User</p>
-        <p>Student ID: STU-1024</p>
-        <button class="danger" onclick="logout()">Logout</button>
-    </div>
-</div>
+<button class="pay-btn" onclick="pay()">Pay & Book</button>
+
+<div id="receipt"></div>
+
+<button class="print-btn" onclick="printReceipt()">Print Receipt</button>
+<button class="pay-btn" onclick="sendWhatsApp()">Send to WhatsApp</button>
 
 </div>
 
-<!-- BOTTOM MENU -->
-<div class="nav">
-    <button onclick="goHome()">Home</button>
-    <button onclick="openBooking()">Book</button>
-    <button onclick="openWhatsApp()">WhatsApp</button>
-    <button onclick="openProfile()">Profile</button>
+<div class="container">
+<button class="mode-btn" onclick="toggleMode()">Toggle Dark/Light</button>
+<button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
+</div>
+
+<!-- ADMIN -->
+<div id="adminPanel" class="container">
+<h2>Admin Panel</h2>
+<ul id="adminList"></ul>
+<button onclick="closeAdmin()">Close</button>
 </div>
 
 <script>
 
-function goHome(){
-    dashboard.classList.remove("hidden");
-    booking.classList.add("hidden");
-    profile.classList.add("hidden");
+let currentBooking=null;
+
+function generateID(name){
+return "STU-"+name.substring(0,3).toUpperCase()+Math.floor(1000+Math.random()*9000);
 }
 
-function openBooking(){
-    dashboard.classList.add("hidden");
-    booking.classList.remove("hidden");
-    profile.classList.add("hidden");
-}
+function login(){
+let name=document.getElementById("studentName").value;
+if(!name){alert("Enter name");return}
 
-function openProfile(){
-    dashboard.classList.add("hidden");
-    booking.classList.add("hidden");
-    profile.classList.remove("hidden");
-}
+let id=generateID(name);
 
-function bookLesson(){
-    let msg=document.getElementById("message");
-    msg.innerHTML=" Booking Successful!";
-}
+localStorage.setItem("student",name);
+localStorage.setItem("studentID",id);
 
-function openWhatsApp(){
-    window.open("https://wa.me/233534115778", "_blank");
+document.getElementById("welcome").innerText="Welcome "+name;
+document.getElementById("studentID").innerText="Student ID: "+id;
+
+loginPage.style.display="none";
+dashboard.style.display="block";
 }
 
 function logout(){
-    alert("Logged out successfully");
-    goHome();
+dashboard.style.display="none";
+loginPage.style.display="block";
+}
+
+function pay(){
+
+let booking={
+name:localStorage.getItem("student"),
+id:localStorage.getItem("studentID"),
+course:course.value,
+date:date.value,
+time:time.value,
+instructor:instructor.value,
+payment:payment.value
+};
+
+if(!booking.course||!booking.date||!booking.time){
+alert("Fill all fields");return;
+}
+
+currentBooking=booking;
+
+let all=JSON.parse(localStorage.getItem("allBookings"))||[];
+all.push(booking);
+localStorage.setItem("allBookings",JSON.stringify(all));
+
+receipt.style.display="block";
+receipt.innerHTML=
+`<h3>RECEIPT</h3>
+Student: ${booking.name}<br>
+ID: ${booking.id}<br>
+Course: ${booking.course}<br>
+Date: ${booking.date}<br>
+Time: ${booking.time}<br>
+Instructor: ${booking.instructor}<br>
+Payment: ${booking.payment}<br>
+<b>Status: CONFIRMED</b>`;
+}
+
+function printReceipt(){
+window.print();
+}
+
+function sendWhatsApp(){
+if(!currentBooking){alert("Book first");return}
+let text=`Driving Lesson Booked
+Name: ${currentBooking.name}
+ID: ${currentBooking.id}
+Course: ${currentBooking.course}
+Date: ${currentBooking.date}
+Time: ${currentBooking.time}`;
+window.open("https://wa.me/?text="+encodeURIComponent(text));
+}
+
+function toggleMode(){
+document.body.classList.toggle("dark");
+}
+
+function openAdmin(){
+adminPanel.style.display="block";
+let list=document.getElementById("adminList");
+list.innerHTML="";
+let all=JSON.parse(localStorage.getItem("allBookings"))||[];
+all.forEach(b=>{
+let li=document.createElement("li");
+li.innerText=`${b.name} | ${b.id} | ${b.course} | ${b.date} ${b.time}`;
+list.appendChild(li);
+});
+}
+
+function closeAdmin(){
+adminPanel.style.display="none";
 }
 
 </script>
