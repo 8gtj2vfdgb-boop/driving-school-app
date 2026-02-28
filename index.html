@@ -1,368 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>K Gyasi Driving School</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicFlow MVP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --apple-pink: #fa243c;
+            --bg-white: #ffffff;
+            --light-gray: #f5f5f7;
+            --text-main: #1d1d1f;
+            --text-dim: #86868b;
+        }
 
-<style>
-:root{
- --bg:#eef2f7;
- --card:white;
- --text:black;
-}
-.dark{
- --bg:#0f172a;
- --card:#1e293b;
- --text:white;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 
-body{
- font-family:Arial;
- background:var(--bg);
- color:var(--text);
- margin:0;
- padding:20px;
-}
+        body { background-color: var(--bg-white); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-/* containers */
-.container,.card,#adminPanel{
- background:var(--card);
- padding:20px;
- border-radius:15px;
- max-width:380px;
- margin:auto;
- margin-top:20px;
- text-align:center;
- box-shadow:0 5px 20px rgba(0,0,0,.2);
-}
+        /* Sidebar Navigation */
+        nav { width: 240px; border-right: 1px solid #e5e5e5; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--apple-pink); margin-bottom: 1rem; }
+        .nav-item { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-main); font-weight: 500; padding: 8px 12px; border-radius: 8px; transition: 0.2s; }
+        .nav-item:hover, .nav-item.active { background: var(--light-gray); color: var(--apple-pink); }
 
-input,select{
- width:90%;
- padding:12px;
- margin:8px;
- border-radius:8px;
- border:1px solid #ccc;
-}
+        /* Main Content */
+        main { flex: 1; padding: 2rem; overflow-y: auto; padding-bottom: 120px; }
+        .search-bar { width: 100%; max-width: 400px; padding: 10px 15px; border-radius: 10px; border: none; background: var(--light-gray); margin-bottom: 2rem; }
 
-button{
- padding:12px 20px;
- border:none;
- border-radius:10px;
- cursor:pointer;
- margin:5px;
-}
+        .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
 
-.login-btn{background:#2563eb;color:white;width:95%}
-.pay-btn{background:green;color:white}
-.logout-btn{background:red;color:white}
-.admin-btn{background:black;color:white}
-.print-btn{background:orange;color:white}
-.mode-btn{background:#6b7280;color:white}
+        /* Song Card */
+        .card { background: var(--bg-white); border-radius: 12px; padding: 10px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: 1px solid transparent; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-color: #eee; }
+        .card img { width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; margin-bottom: 10px; }
+        .card h4 { font-size: 1rem; margin-bottom: 4px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .card p { font-size: 0.85rem; color: var(--text-dim); }
 
-/* hero */
-.hero{
- background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
- url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
- background-size:cover;
- color:white;
- padding:50px 20px;
- border-radius:15px;
- text-align:center;
- max-width:500px;
- margin:auto;
-}
+        /* Player Bar */
+        .player-bar { position: fixed; bottom: 0; width: 100%; height: 90px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-top: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; }
+        .current-track { display: flex; align-items: center; gap: 15px; width: 30%; }
+        .current-track img { width: 50px; height: 50px; border-radius: 4px; }
+        
+        .controls { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 40%; }
+        .control-btns { display: flex; align-items: center; gap: 25px; }
+        .control-btns i { cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+        .control-btns i:hover { color: var(--apple-pink); }
+        .play-btn { font-size: 2rem !important; }
 
-#receipt{background:#dcfce7;padding:15px;border-radius:10px;margin-top:10px;display:none;text-align:left}
-#adminPanel{display:none}
-</style>
+        .progress-container { width: 100%; display: flex; align-items: center; gap: 10px; font-size: 0.75rem; }
+        .progress-bar { flex: 1; height: 4px; background: #e5e5e5; border-radius: 2px; cursor: pointer; position: relative; }
+        .progress-fill { width: 30%; height: 100%; background: var(--text-dim); border-radius: 2px; }
+
+        .volume-ctrl { width: 30%; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .player-bar { padding: 0 1rem; }
+            .volume-ctrl { display: none; }
+            .current-track { width: 60%; }
+            .controls { width: 40%; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="loginPage" class="container">
-<h2>Student Login</h2>
-<input id="studentName" placeholder="Enter your name">
-<input placeholder="Email">
-<input type="password" placeholder="Password">
-<button class="login-btn" onclick="login()">Login</button>
-<button class="admin-btn" onclick="openAdmin()">Admin</button>
-<button class="mode-btn" onclick="toggleMode()">Dark Mode</button>
-</div>
+    <nav>
+        <div class="logo"><i class="fab fa-apple"></i> Music</div>
+        <a href="#" class="nav-item active"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="nav-item"><i class="fas fa-compass"></i> Browse</a>
+        <a href="#" class="nav-item"><i class="fas fa-radio"></i> Radio</a>
+        <hr style="border: 0; border-top: 1px solid #eee;">
+        <p style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Library</p>
+        <a href="#" class="nav-item"><i class="fas fa-clock"></i> Recently Added</a>
+        <a href="#" class="nav-item"><i class="fas fa-music"></i> Songs</a>
+        <a href="#" class="nav-item"><i class="fas fa-heart"></i> Favorites</a>
+    </nav>
 
-<!-- DASHBOARD -->
-<div id="dashboard" style="display:none">
+    <main>
+        <input type="text" class="search-bar" placeholder="Search for artists, songs, or albums...">
+        
+        <section>
+            <h2 class="section-title">Listen Now</h2>
+            <div class="grid" id="song-grid">
+                </div>
+        </section>
+    </main>
 
-<div class="hero">
-<h1>K Gyasi Driving School </h1>
-<p id="welcome"></p>
-<p id="studentID"></p>
-</div>
-
-<div class="card">
-<h2>Book Lesson</h2>
-
-<select id="course">
-<option value="">Select Course</option>
-<option>Beginner Driving - GHC300</option>
-<option>Highway Training - GHC400</option>
-<option>Night Driving - GHC350</option>
-<option>Theory & Road Signs - GHC250</option>
-</select>
-
-<input type="date" id="date">
-<input type="time" id="time">
-
-<select id="instructor">
-<option>Mr Appiah Kubi</option>
-<option>Mr Amankona</option>
-<option>Madam Patiencep</option>
-</select>
-
-<select id="payment">
-<option>Cash</option>
-<option>Mobile Money</option>
-<option>Card</option>
-</select>
-
-<button class="pay-btn" onclick="pay()">Pay & Book</button>
-
-<div id="receipt"></div>
-
-<button class="print-btn" onclick="printReceipt()">Print Receipt</button>
-<button class="pay-btn" onclick="sendWhatsApp()">Send to WhatsApp</button>
-
-</div>
-
-<div class="container">
-<button class="mode-btn" onclick="toggleMode()">Toggle Dark/Light</button>
-<button class="logout-btn" onclick="logout()">Logout</button>
-</div>
-
-</div>
-
-<!-- ADMIN -->
-<div id="adminPanel" class="container">
-<h2>Admin Panel</h2>
-<ul id="adminList"></ul>
-<button onclick="closeAdmin()">Close</button>
-</div>
-
-<script>
-
-let currentBooking=null;
-
-function generateID(name){
-return "STU-"+name.substring(0,3).toUpperCase()+Math.floor(1000+Math.random()*9000);
-}
-
-function login(){
-let name=document.getElementById("studentName").value;
-if(!name){alert("Enter name");return}
-
-let id=generateID(name);
-
-localStorage.setItem("student",name);
-localStorage.setItem("studentID",id);
-
-document.getElementById("welcome").innerText="Welcome "+name;
-document.getElementById("studentID").innerText="Student ID: "+id;
-
-loginPage.style.display="none";
-dashboard.style.display="block";
-}
-
-function logout(){
-dashboard.style.display="none";
-loginPage.style.display="block";
-}
-
-function pay(){
-
-let booking={
-name:localStorage.getItem("student"),
-id:localStorage.getItem("studentID"),
-course:course.value,
-date:date.value,
-time:time.value,
-instructor:instructor.value,
-payment:payment.value
-};
-
-if(!booking.course||!booking.date||!booking.time){
-alert("Fill all fields");return;
-}
-
-currentBooking=booking;
-
-let all=JSON.parse(localStorage.getItem("allBookings"))||[];
-all.push(booking);
-localStorage.setItem("allBookings",JSON.stringify(all));
-
-receipt.style.display="block";
-receipt.innerHTML=
-`<h3>RECEIPT</h3>
-Student: ${booking.name}<br>
-ID: ${booking.id}<br>
-Course: ${booking.course}<br>
-Date: ${booking.date}<br>
-Time: ${booking.time}<br>
-Instructor: ${booking.instructor}<br>
-Payment: ${booking.payment}<br>
-<b>Status: CONFIRMED</b>`;
-}
-
-function printReceipt(){
-window.print();
-}
-
-function sendWhatsApp(){
-if(!currentBooking){alert("Book first");return}
-let text=`Driving Lesson Booked
-Name: ${currentBooking.name}
-ID: ${currentBooking.id}
-Course: ${currentBooking.course}
-Date: ${currentBooking.date}
-Time: ${currentBooking.time}`;
-window.open("https://wa.me/?text="+encodeURIComponent(text));
-}
-
-function toggleMode(){
-document.body.classList.toggle("dark");
-}
-
-function openAdmin(){
-adminPanel.style.display="block";
-let list=document.getElementById("adminList");
-list.innerHTML="";
-let all=JSON.parse(localStorage.getItem("allBookings"))||[];
-all.forEach(b=>{
-let li=document.createElement("li");
-li.innerText=`${b.name} | ${b.id} | ${b.course} | ${b.date} ${b.time}`;
-list.appendChild(li);
-});
-}
-
-function closeAdmin(){
-adminPanel.style.display="none";
-}
-
-</script>
-<!-- ===================== MENU BUTTON ===================== -->
-<div class="menu-item" onclick="openCars()"><b>TAP HERE TO CHECK AVAILABLE CARS ON FOR SALE</b></div>
-
-
-<!-- ===================== CARS PAGE ===================== -->
-<div id="carsPage" class="page" style="display:none;padding:15px;">
-    <h2>Cars Available</h2>
-
-    <div class="cars-container">
-
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=800&q=60">
-            <h3>Toyota Corolla 2015</h3>
-            <p class="price">GHS 78,000</p>
-            <button onclick="buyCar('Toyota Corolla 2015 - GHS 78,000')">Buy on WhatsApp</button>
+    <div class="player-bar">
+        <div class="current-track">
+            <img src="https://via.placeholder.com/50" id="now-playing-img" alt="cover">
+            <div>
+                <h4 id="now-playing-title">Select a song</h4>
+                <p id="now-playing-artist">Artist</p>
+            </div>
+            <i class="far fa-heart" id="favorite-btn" style="margin-left: 10px; cursor: pointer;"></i>
         </div>
 
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=800&q=60">
-            <h3>Honda Civic 2016</h3>
-            <p class="price">GHS 92,000</p>
-            <button onclick="buyCar('Honda Civic 2016 - GHS 92,000')">Buy on WhatsApp</button>
+        <div class="controls">
+            <div class="control-btns">
+                <i class="fas fa-shuffle" title="Shuffle"></i>
+                <i class="fas fa-backward-step"></i>
+                <i class="fas fa-play-circle play-btn" id="master-play"></i>
+                <i class="fas fa-forward-step"></i>
+                <i class="fas fa-repeat" title="Repeat"></i>
+            </div>
+            <div class="progress-container">
+                <span>1:24</span>
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span>3:45</span>
+            </div>
         </div>
 
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=60">
-            <h3>Hyundai Elantra 2018</h3>
-            <p class="price">GHS 105,000</p>
-            <button onclick="buyCar('Hyundai Elantra 2018 - GHS 105,000')">Buy on WhatsApp</button>
+        <div class="volume-ctrl">
+            <i class="fas fa-volume-low"></i>
+            <div class="progress-bar" style="max-width: 100px;"><div class="progress-fill" style="width: 70%"></div></div>
         </div>
-
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=60">
-            <h3>Kia Optima 2017</h3>
-            <p class="price">GHS 110,000</p>
-            <button onclick="buyCar('Kia Optima 2017 - GHS 110,000')">Buy on WhatsApp</button>
-        </div>
-
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=60">
-            <h3>Mercedes C300 2014</h3>
-            <p class="price">GHS 145,000</p>
-            <button onclick="buyCar('Mercedes C300 2014 - GHS 145,000')">Buy on WhatsApp</button>
-        </div>
-
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=60">
-            <h3>Range Rover Evoque 2013</h3>
-            <p class="price">GHS 210,000</p>
-            <button onclick="buyCar('Range Rover Evoque 2013 - GHS 210,000')">Buy on WhatsApp</button>
-        </div>
-
     </div>
 
-    <br>
-    <button onclick="goBack()" style="padding:10px 20px;border:none;background:black;color:white;border-radius:10px;">⬅ Back</button>
-</div>
+    <script>
+        // Mock Data
+        const songs = [
+            { id: 1, title: "Midnight City", artist: "M83", cover: "https://picsum.photos/seed/1/200" },
+            { id: 2, title: "Starboy", artist: "The Weeknd", cover: "https://picsum.photos/seed/2/200" },
+            { id: 3, title: "Levitating", artist: "Dua Lipa", cover: "https://picsum.photos/seed/3/200" },
+            { id: 4, title: "Heat Waves", artist: "Glass Animals", cover: "https://picsum.photos/seed/4/200" },
+            { id: 5, title: "Stay", artist: "The Kid LAROI", cover: "https://picsum.photos/seed/5/200" },
+            { id: 6, title: "Blinding Lights", artist: "The Weeknd", cover: "https://picsum.photos/seed/6/200" }
+        ];
 
+        const songGrid = document.getElementById('song-grid');
+        const masterPlay = document.getElementById('master-play');
+        const favBtn = document.getElementById('favorite-btn');
 
-<!-- ===================== STYLE ===================== -->
-<style>
-.cars-container{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:15px;
-}
+        // Render Songs
+        function renderSongs() {
+            songGrid.innerHTML = songs.map(song => `
+                <div class="card" onclick="playSong('${song.title}', '${song.artist}', '${song.cover}')">
+                    <img src="${song.cover}" alt="${song.title}">
+                    <h4>${song.title}</h4>
+                    <p>${song.artist}</p>
+                </div>
+            `).join('');
+        }
 
-.car-card{
-    background:white;
-    border-radius:15px;
-    padding:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
-}
+        // Logic for Player
+        let isPlaying = false;
+        function playSong(title, artist, cover) {
+            document.getElementById('now-playing-title').innerText = title;
+            document.getElementById('now-playing-artist').innerText = artist;
+            document.getElementById('now-playing-img').src = cover;
+            
+            isPlaying = true;
+            masterPlay.classList.replace('fa-play-circle', 'fa-pause-circle');
+        }
 
-.car-card img{
-    width:100%;
-    height:200px;
-    object-fit:cover;
-    border-radius:12px;
-}
+        masterPlay.onclick = () => {
+            if(!isPlaying) {
+                masterPlay.classList.replace('fa-play-circle', 'fa-pause-circle');
+                isPlaying = true;
+            } else {
+                masterPlay.classList.replace('fa-pause-circle', 'fa-play-circle');
+                isPlaying = false;
+            }
+        };
 
-.price{
-    color:green;
-    font-weight:bold;
-    font-size:18px;
-}
+        favBtn.onclick = () => {
+            favBtn.classList.toggle('fas');
+            favBtn.classList.toggle('far');
+            favBtn.style.color = favBtn.classList.contains('fas') ? 'var(--apple-pink)' : 'inherit';
+        };
 
-.car-card button{
-    width:100%;
-    padding:12px;
-    border:none;
-    background:#25D366;
-    color:white;
-    border-radius:10px;
-    margin-top:10px;
-    font-size:16px;
-}
-</style>
-
-
-<!-- ===================== SCRIPT ===================== -->
-<script>
-function openCars(){
-    document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-    document.getElementById('carsPage').style.display='block';
-}
-
-function buyCar(car){
-    let msg = "Hello, I'm interested in buying: " + car;
-    window.location.href = "https://wa.me/233534115778?text=" + encodeURIComponent(msg);
-}
-
-function goBack(){
-    document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-    document.getElementById('dashboard').style.display='block';
-}
-</script>
+        renderSongs();
+    </script>
 </body>
 </html>
